@@ -1,6 +1,8 @@
 package org.example;
 
 import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.io.File;
+import java.io.FileNotFoundException
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,17 +11,22 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Quiz quiz = new Quiz();
-        List<String> respuesta1 = new ArrayList<String>();
-        respuesta1.add("Negro");
-        respuesta1.add("Verde");
-        respuesta1.add("Blanco");
-        respuesta1.add("Ninguno");
-        Pregunta pregunta1 =
-                new Pregunta("De que color era el caballo blanco de san martin",
-                        respuesta1,3);
-        quiz.agregarPregunta(pregunta1);
+        List<Quiz> preguntas = new ArrayList<>();
+        try {
+            File myObj = new File("src/main/resources/preguntas");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                preguntas.add(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado.");
+            e.printStackTrace();
+        }
+        for (String pregunta : preguntas) ;
 
-        pregunta1.mostrarPregunta();
-
+        }
+         Quiz.iniciarQuiz();
     }
 }
